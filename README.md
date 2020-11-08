@@ -16,3 +16,8 @@ sbt:file-test-http4s> run
 [error] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 [info] fileName: a.txt with text: asdfasdfadf
 ```
+
+# Reference/Credit
+
+https://stackoverflow.com/questions/8659808/how-does-http-file-upload-work helped me to understand, at a high level, the client + HTTP components
+of uploading a file.
