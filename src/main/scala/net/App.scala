@@ -13,7 +13,7 @@ object App {
       r
         .as[Multipart[IO]]
         .flatMap { mp: Multipart[IO] =>
-          val firstPartWithFile: Vector[(String, Stream[IO, Byte])] =
+          val partsWithFile: Vector[(String, Stream[IO, Byte])] =
             mp
               .parts
               .flatMap { p: Part[IO] =>
@@ -22,7 +22,7 @@ object App {
                 }.toVector
             }
 
-          firstPartWithFile
+          partsWithFile
             .headOption match {
             case Some( (fileName, stream) ) =>
               stream
