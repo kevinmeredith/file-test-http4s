@@ -13,23 +13,23 @@ object App {
       r
         .as[Multipart[IO]]
         .flatMap { mp: Multipart[IO] =>
-          val partsWithFile: Vector[(String, Stream[IO, Byte])] =
+          val partsWithFile: Vector[(String, Stream[IO, Byte], Headers)] =
             mp
               .parts
               .flatMap { p: Part[IO] =>
                 p.filename.map { name: String =>
-                  (name, p.body)
+                  (name, p.body, p.headers)
                 }.toVector
             }
 
           partsWithFile
             .headOption match {
-            case Some( (fileName, stream) ) =>
+            case Some( (fileName, stream, headers) ) =>
               stream
                 .through(text.utf8Decode)
                 .compile
                 .string
-                .flatMap { text: String => IO(println("fileName: " + fileName + " with text: " + text) ) }
+                .flatMap { text: String => IO(println("fileName: " + fileName + "with headers: " + headers.toString + " with text: " + text) ) }
                 .as {
                   Response[IO](status = Status.NoContent)
                 }
